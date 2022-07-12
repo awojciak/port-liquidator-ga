@@ -6,8 +6,6 @@ import {
   AccountInfo,
   TransactionInstruction,
 } from '@solana/web3.js';
-import { homedir } from 'os';
-import * as fs from 'fs';
 import {
   createAssociatedTokenAccount,
   defaultTokenAccount,
@@ -37,6 +35,7 @@ import {
   ReserveId,
   ReserveInfo,
 } from '@port.finance/port-sdk';
+import bs58 from 'bs58';
 
 const SOL_MINT = 'So11111111111111111111111111111111111111112';
 const DISPLAY_FIRST = 20;
@@ -55,8 +54,14 @@ interface EnrichedObligation {
 }
 
 async function runLiquidator() {
+  async function shutdownTimer() {
+    await sleep(15 * 60 * 1000);
+    process.exit();
+  }
+  shutdownTimer();
+
   const clusterUrl =
-    process.env.CLUSTER_URL || 'https://api.mainnet-beta.solana.com';
+    process.env.CLUSTER_URL || 'https://ssc-dao.genesysgo.ne';
   const checkInterval = parseFloat(process.env.CHECK_INTERVAL || '8000.0');
   const connection = new Connection(clusterUrl, 'singleGossip');
 
@@ -66,10 +71,8 @@ async function runLiquidator() {
   );
 
   // liquidator's keypair
-  const keyPairPath =
-    process.env.KEYPAIR || `${homedir()}/.config/solana/id.json`;
   const payer = Keypair.fromSecretKey(
-    Uint8Array.from(JSON.parse(fs.readFileSync(keyPairPath, 'utf-8'))),
+    bs58.decode(process.env.PRIV_KEY)
   );
   const provider = new Provider(connection, new Wallet(payer), {
     preflightCommitment: 'recent',
