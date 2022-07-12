@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 16.x
       - name: Install ts
-        run: yarn globall add typescript ts-node
+        run: yarn global add typescript ts-node
       - name: Install Dependencies
         run: yarn install
       - name: run liquidator
