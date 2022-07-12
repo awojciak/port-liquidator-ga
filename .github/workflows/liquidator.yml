@@ -16,10 +16,10 @@ jobs:
         with:
           node-version: 16.x
       - name: Install ts
-        run: npm install -g typescript ts-node
+        run: yarn globall add typescript ts-node
       - name: Install Dependencies
-        run: npm i
+        run: yarn install
       - name: run liquidator
         run: |
           export PRIV_KEY=${{ secrets.PRIV_KEY }}
-          npm run liquidator
+          yarn liquidator
