@@ -61,7 +61,7 @@ async function runLiquidator() {
   shutdownTimer();
 
   const clusterUrl =
-    process.env.CLUSTER_URL || 'https://ssc-dao.genesysgo.ne';
+    process.env.CLUSTER_URL || 'https://ssc-dao.genesysgo.net';
   const checkInterval = parseFloat(process.env.CHECK_INTERVAL || '8000.0');
   const connection = new Connection(clusterUrl, 'singleGossip');
 
