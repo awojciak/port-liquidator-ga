@@ -72,7 +72,7 @@ async function runLiquidator() {
 
   // liquidator's keypair
   const payer = Keypair.fromSecretKey(
-    bs58.decode(process.env.PRIV_KEY)
+    bs58.decode(process.env.PRIV_KEY as string)
   );
   const provider = new Provider(connection, new Wallet(payer), {
     preflightCommitment: 'recent',
